@@ -78,73 +78,85 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 #define PrintScreenDWM	    0x0000ff61
 
 static Key keys[] = {
-	/* modifier                     key                         function        argument */
-	{ ControlMask,                  XK_space,                   spawn,          SHCMD("www_search") },
-	{ MODKEY|ShiftMask,             XK_Return,                  spawn,          SHCMD("st") },
-	{ ControlMask,                  XK_Return,                  spawn,          SHCMD("dmenu_run -c -l 17") },
-	{ MODKEY,                       XK_b,                       togglebar,      {0} },
-	{ MODKEY,                       XK_j,                       focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,                       focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_h,                       setmfact,       {.f = -0.05} },
-	{ MODKEY,                       XK_l,                       setmfact,       {.f = +0.05} },
-	{ MODKEY,                       XK_Return,                  zoom,           {0} },
-	{ MODKEY,                       XK_Tab,                     view,           {0} },
-	{ MODKEY,						XK_comma,					focusmon,		{.i = -1 } },
-	{ MODKEY,						XK_period,					focusmon,		{.i = +1 } },
-	{ MODKEY|ShiftMask,				XK_comma,					tagmon,			{.i = -1 } },
-	{ MODKEY|ShiftMask,				XK_period,					tagmon,			{.i = +1 } },
-    { MODKEY|ShiftMask,             XK_e,                       killclient,     {0} },
-	{ MODKEY|ShiftMask,             XK_t,                       setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ShiftMask,             XK_f,                       setlayout,      {.v = &layouts[1]} },
-	{ MODKEY|ShiftMask,             XK_m,                       setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_b,                       setlayout,      {.v = &layouts[3]} },
-	{ MODKEY|ShiftMask,             XK_g,                       setlayout,      {.v = &layouts[5]} },
-	{ MODKEY|ShiftMask,             XK_c,                       setlayout,      {.v = &layouts[4]} },
-	{ MODKEY,                       XK_0,                       view,           {.ui = ~0 } },
-	{ MODKEY|ShiftMask,             XK_0,                       tag,            {.ui = ~0 } },
-	{ MODKEY,                       XK_minus,                   setgaps,        {.i = -1 } },
-	{ MODKEY,                       XK_equal,                   setgaps,        {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_equal,                   resetgaps,      {.i = gappx  } },
-	{ MODKEY|ShiftMask,             XK_j,                       movestack,      {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,                       movestack,      {.i = -1 } },
-	{ MODKEY,                       XK_f,                       togglefullscr,  {0} },
-	{ MODKEY|ShiftMask,             XK_F12,                     quit,           {0} },
-	{ 0,                            PrintScreenDWM,             spawn,          SHCMD("/usr/bin/flameshot gui &") },
-	{ MODKEY|ShiftMask,             XK_p,                       spawn,          SHCMD("/usr/bin/flameshot gui &") },
-	{ MODKEY|ShiftMask,             XK_l,                       spawn,          SHCMD("/usr/local/bin/slock") },
-	/* AUDIO */
-	{ 0,                            XF86XK_AudioRaiseVolume,    spawn,          SHCMD("/usr/bin/pactl set-sink-volume @DEFAULT_SINK@ +5%; kill -44 $(pidof dwmblocks)") },
-	{ 0,                            XF86XK_AudioLowerVolume,    spawn,          SHCMD("/usr/bin/pactl set-sink-volume @DEFAULT_SINK@ -5%; kill -44 $(pidof dwmblocks)") },
-	{ 0,                            XF86XK_AudioMute,           spawn,          SHCMD("/usr/bin/pactl set-sink-mute @DEFAULT_SINK@ toggle; kill -44 $(pidof dwmblocks)") },
-	/* BRIGHTNESS */
-	{ MODKEY,				        XK_F7,                      spawn,          SHCMD("/usr/bin/brightnessctl s 5%- && kill -45 $(pidof dwmblocks)") },
-	{ MODKEY,				        XK_F8,                      spawn,          SHCMD("/usr/bin/brightnessctl s +5% && kill -45 $(pidof dwmblocks)") },
-	/* Toggle us/tr keyboard layout  */
-    { MODKEY,                       XK_space,                   spawn,          SHCMD("/usr/bin/setxkbmap -query | grep 'layout:[[:blank:]]*us' && setxkbmap tr || setxkbmap us && kill -46 $(pidof dwmblocks)") },
-    TAGKEYS(                        XK_1,                      0)
-	TAGKEYS(                        XK_2,                      1)
-	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
+    /* modifier             key                         function            argument */
+    { MODKEY,               XK_d,                       spawn,              {.v = dmenucmd } },
+    { ControlMask|Mod1Mask, XK_t,                  	spawn,              {.v = termcmd } },
+    { MODKEY|ShiftMask,     XK_Return,                  togglescratch,      {.ui = 0} },
+    { MODKEY,               XK_Tab,                     cyclelayout,        {.i = +1 } },
+    { MODKEY,               XK_space,                   togglefloating,     {0} },
+    { Mod1Mask,               XK_F4,                       killclient,         {0} },
+    { MODKEY,               XK_0,                       view,               {.ui = ~0 } },
+    { MODKEY,               XK_comma,                   focusmon,           {.i = -1 } },
+    { MODKEY,               XK_Left,                       setmfact,           {.f = -0.05} },
+    { MODKEY,               XK_i,                       incnmaster,         {.i = +1 } },
+    { MODKEY,               XK_j,                       focusstack,         {.i = -1 } },
+    { MODKEY,               XK_k,                       focusstack,         {.i = +1 } },
+    { MODKEY,               XK_Right,                       setmfact,           {.f = +0.05} },
+    { MODKEY,               XK_period,                  focusmon,           {.i = +1 } },
+    { MODKEY,               XK_t,                       togglealttag,       {0} },
+    { Mod1Mask,             XK_m,                       spawn,              SHCMD("minecraft-launcher")},
+    { MODKEY|ControlMask,   XK_b,                       togglebar,          {0} },
+    { MODKEY|ShiftMask,     XK_0,                       tag,                {.ui = ~0 } },
+    { MODKEY|ShiftMask,     XK_Tab,                     view,               {0} },
+    { MODKEY|ShiftMask,     XK_comma,                   tagmon,             {.i = -1 } },
+    { MODKEY|ShiftMask,     XK_i,                       incnmaster,         {.i = -1 } },
+    { MODKEY|ShiftMask,     XK_j,                       zoom,               {0} },
+    { MODKEY|ShiftMask,     XK_k,                       zoom,               {0} },
+    { MODKEY|ShiftMask,     XK_period,                  tagmon,             {.i = +1 } },
+
+    { 0,               XK_Print,                       spawn,              SHCMD("scrot -e 'xclip -selection clipboard -t image/png -i $f'")},
+    { MODKEY,               XK_b,                       spawn,              SHCMD("brave")},
+    { Mod1Mask,               XK_3,                       spawn,              SHCMD("libreoffice")},
+    { Mod1Mask,               XK_F5,                       spawn,              SHCMD("st -e bluetoothctl")},
+    { Mod1Mask,               XK_4,                       spawn,              SHCMD("spotify")},
+    { Mod1Mask,               XK_5,                       spawn,              SHCMD("signal-desktop")},
+    { Mod1Mask,               XK_6,                       spawn,              SHCMD("discord")},
+    { Mod1Mask,               XK_2,                       spawn,              SHCMD("libreoffice")},
+    { Mod1Mask,               XK_1,                       spawn,              SHCMD("dmenufm")},
+    { MODKEY,               XK_F2,                       spawn,              SHCMD(TERMINAL " -e nmtui")},
+    { Mod1Mask,               XK_F6,                       spawn,              SHCMD(TERMINAL " -e mocp")},
+    { ControlMask|Mod1Mask,  XK_Delete,                 spawn,              SHCMD("xkill")},
+    { MODKEY,		    XK_Escape,                       spawn,              SHCMD(TERMINAL " -e htop")},
+    { MODKEY|ShiftMask,     XK_f,                       spawn,              SHCMD("spacefm")},
+    { 0,     XK_Insert,                       spawn,              SHCMD("exec ibus-daemon -drxR")},
+    { Mod1Mask,             XK_p,                       spawn,              SHCMD("poweroff")},
+
+    { 0,                    XF86XK_AudioLowerVolume,    spawn,              SHCMD("pamixer -d 1") },
+    { 0,                    XF86XK_AudioMute,           spawn,              SHCMD("pamixer -t") },
+    { 0,                    XF86XK_AudioRaiseVolume,    spawn,              SHCMD("pamixer -i 1") },
+    { 0,                    XF86XK_MonBrightnessDown,   spawn,              SHCMD("brightnessctl -e s 1%-") },
+    { 0,                    XF86XK_MonBrightnessUp,     spawn,              SHCMD("brightnessctl -e s +1%") },
+    { MODKEY,                    XK_Print,                   spawn,              SHCMD("scrot -e 'mv $f ~/Pictures'") },
+    { MODKEY,               XK_c,                       togglescratch,      {.ui = 1} },
+
+    { MODKEY,               XK_bracketleft,             incrgaps,           {.i = +5 } },
+    { MODKEY,               XK_bracketright,            incrgaps,           {.i = -5 } },
+    { MODKEY,               XK_equal,                   defaultgaps,        {0} },
+    TAGKEYS(                XK_1,                       0)
+    TAGKEYS(                XK_2,                       1)
+    TAGKEYS(                XK_3,                       2)
+    TAGKEYS(                XK_4,                       3)
+    TAGKEYS(                XK_5,                       4)
+    TAGKEYS(                XK_6,                       5)
+    TAGKEYS(                XK_7,                       6)
+    TAGKEYS(                XK_8,                       7)
+    TAGKEYS(                XK_9,                       8)
+    { MODKEY|ShiftMask,     XK_q,                       quit,               {0} },
 };
 
-/* button definitions */
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+/* button definitions */ /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
-	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          SHCMD("st") },
-	{ ClkTagBar,            0,              Button1,        view,           {0} },
-	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
-	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
-	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
-	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
-	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+    /* click            event mask      button          function        argument */
+    { ClkLtSymbol,      0,              Button1,        setlayout,      {0} },
+    { ClkLtSymbol,      0,              Button3,        setlayout,      {.v = &layouts[2]} },
+    { ClkWinTitle,      0,              Button2,        zoom,           {0} },
+    { ClkStatusText,    0,              Button2,        spawn,          {.v = termcmd } },
+    { ClkClientWin,     MODKEY,         Button1,        movemouse,      {0} },
+    { ClkClientWin,     MODKEY,         Button2,        togglefloating, {0} },
+    { ClkClientWin,     MODKEY,         Button3,        resizemouse,    {0} },
+    { ClkTagBar,        0,              Button1,        view,           {0} },
+    { ClkTagBar,        0,              Button3,        toggleview,     {0} },
+    { ClkTagBar,        MODKEY,         Button1,        tag,            {0} },
+    { ClkTagBar,        MODKEY,         Button3,        toggletag,      {0} },
 };
+
